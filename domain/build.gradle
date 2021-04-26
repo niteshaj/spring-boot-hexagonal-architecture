@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group 'com.example'
+version '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':domain-model')
+    implementation project(':ports:output-ports')
+    implementation project(':ports:input-ports')
+
+    implementation 'javax.inject:javax.inject:1'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}

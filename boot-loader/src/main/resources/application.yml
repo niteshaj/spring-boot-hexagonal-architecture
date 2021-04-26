@@ -1,0 +1,28 @@
+spring:
+  main:
+    banner-mode: "off"
+  profiles:
+        active: dev
+
+  jackson:
+    default-property-inclusion: NON_NULL
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+
+
+logging:
+  level:
+    root: ERROR
+    com.example: INFO
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} %5p - %c[%t] - %msg%n'
+    #"{\"time\": \"%d\", \"level\": \"%p\", \"correlation-id\": \"%X{X-Correlation-Id}\", \"source\": \"%logger{63}\", \"message\": \"%replace(%m%wEx{6}){'[\r\n]+', '\\n'}%nopex\"}%n"
+    #file: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5p] %msg%n'
+  #file:
+    #name: loan-differance.log
+

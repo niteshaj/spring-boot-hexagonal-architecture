@@ -1,0 +1,28 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet author="asdf" id="1234">
+        <sql dbms="h2" endDelimiter=";">
+            CREATE SCHEMA IF NOT EXISTS online_service
+        </sql>
+    </changeSet>
+
+    <changeSet author="Nitesh" id="changelog-1.0">
+        <createTable tableName="Product" schemaName="online_service">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="NAME" type="VARCHAR2(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR2(150)"/>
+            <column name="created_by" type="VARCHAR2(64)"/>
+            <column name="updated_by" type="VARCHAR2(64)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
