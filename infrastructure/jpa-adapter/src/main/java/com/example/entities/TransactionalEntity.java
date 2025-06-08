@@ -3,7 +3,9 @@ package com.example.entities;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @MappedSuperclass
 public class TransactionalEntity implements Serializable {
+    @Serial
     private static final long serialVersionUID = 2487002187064246211L;
 
     @Id

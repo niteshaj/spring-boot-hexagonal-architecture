@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -44,12 +43,12 @@ public final class Response<T> {
         this.path = path;
     }
 
-    public static <T> Response createResponse(final T model) {
+    public static <T> Response<T> createResponse(final T model) {
         Response<T> response = new Response<>();
-        if (model instanceof Collection) {
-            response.count = ((Collection) model).size();
-        } else if (model instanceof Map) {
-            response.count = ((Map) model).size();
+        if (model instanceof Collection collection) {
+            response.count = collection.size();
+        } else if (model instanceof Map map) {
+            response.count = map.size();
         } else {
             response.count = 1;
         }
@@ -57,30 +56,30 @@ public final class Response<T> {
         return response;
     }
 
-    public static Response createCountResponse(final int count) {
-        Response response = new Response<>();
+    public static <O> Response<O> createCountResponse(final int count) {
+        Response<O> response = new Response<>();
         response.count = count;
         return response;
     }
 
-    public static Response createErrorResponse(String message, String detailMessage, String path) {
+    public static <O> Response<O> createErrorResponse(String message, String detailMessage, String path) {
         ErrorCode code = ApplicationCode.UNHANDLED_EXCEPTION;
         String msg = LocalizationHelper.getLocalizedMessage(code, new Object());
-        Response response = new Response<>(new ErrorResponse(code.getCode(),
+        Response<O> response = new Response<>(new ErrorResponse(code.getCode(),
                 msg, null, StringUtils.join(message, " - ",detailMessage)), path);
         LOGGER.error("Error Response :: {}", response);
         return response;
     }
 
-    public static Response createErrorResponse(final ErrorCode errorCode, String detailMessage, Object[] params, String path) {
+    public static <O> Response<O> createErrorResponse(final ErrorCode errorCode, String detailMessage, Object[] params, String path) {
         String message = LocalizationHelper.getLocalizedMessage(errorCode, params);
-        Response response = new Response<>(new ErrorResponse(errorCode.getCode(), message, Arrays.asList(params), detailMessage),
+        Response<O> response = new Response<>(new ErrorResponse(errorCode.getCode(), message, Arrays.asList(params), detailMessage),
                 path);
         LOGGER.error("Error Response :: {}", response);
         return response;
     }
 
-    public static Response createErrorResponse(final Map<String, ValidationCode> validationError, String path) {
+    public static Response<String> createErrorResponse(final Map<String, ValidationCode> validationError, String path) {
         List<ErrorResponse> errorResponses = validationError.keySet()
                 .parallelStream()
                 .map(key -> {
@@ -90,12 +89,12 @@ public final class Response<T> {
                 })
                 .collect(Collectors.toList());
 
-        Response response = new Response<>(errorResponses, path);
+        Response<String> response = new Response<>(errorResponses, path);
         LOGGER.error("Error Response :: {}", response);
         return response;
     }
 
-    public static Response createErrorResponse(final List<FieldError> fieldErrors, String path) {
+    public static Response<String> createErrorResponse(final List<FieldError> fieldErrors, String path) {
         List<ErrorResponse> errorResponses = fieldErrors.parallelStream()
                 .map(error -> {
                     //Get validation error code, if we have given message with specific error code
@@ -121,7 +120,7 @@ public final class Response<T> {
                 })
                 .collect(Collectors.toList());
 
-        Response response = new Response<>(errorResponses, path);
+        Response<String> response = new Response<>(errorResponses, path);
         LOGGER.error("Error Response :: {}", response);
         return response;
     }
@@ -132,7 +131,6 @@ public final class Response<T> {
 class LocalizationHelper {
     private static MessageSource messageSource;
 
-    @Autowired
     LocalizationHelper(MessageSource messageSource) {
         LocalizationHelper.messageSource = messageSource;
     }

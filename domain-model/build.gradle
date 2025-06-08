@@ -4,17 +4,16 @@ plugins {
 
 group 'com.example'
 version '0.0.1-SNAPSHOT'
-sourceCompatibility = '8'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'javax.validation:validation-api:2.0.1.Final'
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
 
-    compileOnly 'org.projectlombok:lombok:1.18.20'
-    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    compileOnly 'org.projectlombok:lombok:1.18.38'
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'

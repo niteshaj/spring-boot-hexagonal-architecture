@@ -3,9 +3,8 @@ package com.example;
 import com.example.model.Product;
 import com.example.ports.ProductPersistencePort;
 import com.example.ports.ProductService;
+import jakarta.inject.Named;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.List;
 
 @Named
@@ -34,9 +33,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(Long productId) {
-        System.out.println("adsada");
-        System.out.println("adsada");
-        System.out.println("adsada111");
         return productRepository.getProductById(productId);
     }
 }
